@@ -1,0 +1,45 @@
+# GraphQLスキーマの定義
+type User {
+  id: ID!
+  email: String!
+  username: String
+  tags: Tag
+  blogs: [Blog!]
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  user: User
+  userId: Int
+  blog: Blog
+  blogId: Int
+}
+
+type Blog {
+  id: ID!
+  title: String!
+  user: User
+  userId: Int
+  tags: [Tag!]
+  createdAt: String
+}
+
+type Query {
+  users(page: Int!): [User]!
+  blogs(page: Int!): [Blog]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User
+  deleteBlog(input: DeleteBlogInput!): Blog
+}
+
+input CreateUserInput {
+  email: String!
+  username: String!
+}
+
+input DeleteBlogInput {
+  id: ID!
+}
