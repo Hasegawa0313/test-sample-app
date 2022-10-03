@@ -34,7 +34,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -309,13 +309,9 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Blog",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Blog",
+                  "ofType": null
                 }
               }
             },
@@ -350,13 +346,9 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "User",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
                 }
               }
             },
@@ -417,7 +409,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -520,7 +512,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "ID",
                 "ofType": null
               }
             },

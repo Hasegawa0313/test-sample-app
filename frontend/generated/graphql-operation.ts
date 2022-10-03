@@ -16,7 +16,7 @@ export type Scalars = {
 export type Blog = {
   __typename?: 'Blog';
   createdAt?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String'];
   user?: Maybe<User>;
@@ -50,8 +50,8 @@ export type MutationDeleteBlogArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  blogs: Array<Blog>;
-  users: Array<User>;
+  blogs: Array<Maybe<Blog>>;
+  users: Array<Maybe<User>>;
 };
 
 
@@ -68,7 +68,7 @@ export type Tag = {
   __typename?: 'Tag';
   blog?: Maybe<Blog>;
   blogId?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   name: Scalars['String'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['Int']>;
@@ -78,12 +78,30 @@ export type User = {
   __typename?: 'User';
   blogs?: Maybe<Array<Blog>>;
   email: Scalars['String'];
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   tags?: Maybe<Tag>;
   username?: Maybe<Scalars['String']>;
 };
 
 
+export const Blogs = gql`
+    query Blogs($page: Int!) {
+  blogs(page: $page) {
+    id
+    title
+    user {
+      id
+      username
+    }
+    userId
+    tags {
+      id
+      name
+    }
+    createdAt
+  }
+}
+    `;
 export const Users = gql`
     query Users($page: Int!) {
   users(page: $page) {

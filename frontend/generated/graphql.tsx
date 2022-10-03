@@ -18,7 +18,7 @@ export type Scalars = {
 export type Blog = {
   __typename?: 'Blog';
   createdAt?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String'];
   user?: Maybe<User>;
@@ -52,8 +52,8 @@ export type MutationDeleteBlogArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  blogs: Array<Blog>;
-  users: Array<User>;
+  blogs: Array<Maybe<Blog>>;
+  users: Array<Maybe<User>>;
 };
 
 
@@ -70,7 +70,7 @@ export type Tag = {
   __typename?: 'Tag';
   blog?: Maybe<Blog>;
   blogId?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   name: Scalars['String'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['Int']>;
@@ -80,19 +80,72 @@ export type User = {
   __typename?: 'User';
   blogs?: Maybe<Array<Blog>>;
   email: Scalars['String'];
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   tags?: Maybe<Tag>;
   username?: Maybe<Scalars['String']>;
 };
+
+export type BlogsQueryVariables = Exact<{
+  page: Scalars['Int'];
+}>;
+
+
+export type BlogsQuery = { __typename?: 'Query', blogs: Array<{ __typename?: 'Blog', id: string, title: string, userId?: number | null, createdAt?: string | null, user?: { __typename?: 'User', id: string, username?: string | null } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null } | null> };
 
 export type UsersQueryVariables = Exact<{
   page: Scalars['Int'];
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, email: string }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string } | null> };
 
 
+export const BlogsDocument = gql`
+    query Blogs($page: Int!) {
+  blogs(page: $page) {
+    id
+    title
+    user {
+      id
+      username
+    }
+    userId
+    tags {
+      id
+      name
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useBlogsQuery__
+ *
+ * To run a query within a React component, call `useBlogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBlogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBlogsQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *   },
+ * });
+ */
+export function useBlogsQuery(baseOptions: Apollo.QueryHookOptions<BlogsQuery, BlogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BlogsQuery, BlogsQueryVariables>(BlogsDocument, options);
+      }
+export function useBlogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlogsQuery, BlogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BlogsQuery, BlogsQueryVariables>(BlogsDocument, options);
+        }
+export type BlogsQueryHookResult = ReturnType<typeof useBlogsQuery>;
+export type BlogsLazyQueryHookResult = ReturnType<typeof useBlogsLazyQuery>;
+export type BlogsQueryResult = Apollo.QueryResult<BlogsQuery, BlogsQueryVariables>;
 export const UsersDocument = gql`
     query Users($page: Int!) {
   users(page: $page) {
