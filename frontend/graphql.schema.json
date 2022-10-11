@@ -14,12 +14,24 @@
         "description": null,
         "fields": [
           {
-            "name": "createdAt",
+            "name": "content",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Date",
               "ofType": null
             },
             "isDeprecated": false,
@@ -140,6 +152,22 @@
             "deprecationReason": null
           },
           {
+            "name": "password",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "username",
             "description": null,
             "type": {
@@ -156,6 +184,16 @@
             "deprecationReason": null
           }
         ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Date",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -214,7 +252,7 @@
         "fields": [
           {
             "name": "createUser",
-            "description": null,
+            "description": "ユーザー作成",
             "args": [
               {
                 "name": "input",
@@ -243,7 +281,7 @@
           },
           {
             "name": "deleteBlog",
-            "description": null,
+            "description": "ブログ削除",
             "args": [
               {
                 "name": "input",
@@ -282,18 +320,18 @@
         "description": null,
         "fields": [
           {
-            "name": "blogs",
-            "description": null,
+            "name": "blog",
+            "description": "id指定したブログ 取得",
             "args": [
               {
-                "name": "page",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
@@ -302,6 +340,18 @@
                 "deprecationReason": null
               }
             ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Blog",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blogs",
+            "description": "ブログ一覧 取得",
+            "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -319,8 +369,49 @@
             "deprecationReason": null
           },
           {
+            "name": "loginUser",
+            "description": "ログインユーザー 取得",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": "id指定したユーザー 取得",
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "users",
-            "description": null,
+            "description": "ユーザー一覧",
             "args": [
               {
                 "name": "page",

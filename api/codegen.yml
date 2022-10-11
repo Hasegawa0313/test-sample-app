@@ -8,6 +8,10 @@ generates:
       - 'typescript-document-nodes'
     config:
       useIndexSignature: true
-      mappers:
-        User: ./prisma/generated/prisma-client-js#User
-        Blog: ./prisma/generated/prisma-client-js#Blog
+      contextType: '@/types/context#Context'
+      scalars:
+        Date: Date
+        ID: number | string
+      # mappers:
+      #   User: '@/prisma/generated/prisma-client-js#User'
+      #   Blog: '@/prisma/generated/prisma-client-js#Blog'

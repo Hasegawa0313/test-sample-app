@@ -3,111 +3,115 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="container"
+    class="flex justify-center items-center flex-col min-h-screen font-mono"
   >
-    <main>
-      <h1
-        class="title"
+    <header>
+      <nav
+        class="bg-gray-800 w-screen"
       >
-        Welcome to 
-        <a
-          href="https://nextjs.org"
+        <div
+          class="flex items-center pl-8 h-14"
         >
-          Next.js!
-        </a>
-      </h1>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded"
+              data-testid="blog-nav"
+              href="/"
+            >
+              Blog
+            </a>
+            <a
+              class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded"
+              data-testid="admin-nav"
+              href="/admin-page"
+            >
+              Admin
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main
+      class="flex flex-1 justify-center items-center flex-col w-screen"
+    >
       <p
-        class="description"
+        class="text-3xl text-center"
       >
-        Get started by editing 
-        <code>
-          pages/index.js
-        </code>
+        Login
       </p>
-      <div
-        class="grid"
+      <form
+        class="mt-8 space-y-3"
       >
-        <a
-          class="card"
-          href="https://nextjs.org/docs"
+        <div>
+          <input
+            class="px-3 py-2 border border-gray-300"
+            placeholder="Email"
+            required=""
+            type="email"
+            value=""
+          />
+        </div>
+        <div>
+          <input
+            class="px-3 py-2 border border-gray-300"
+            placeholder="Password"
+            required=""
+            type="password"
+            value=""
+          />
+        </div>
+        <p
+          class="cursor-pointer flex items-center justify-center flex-col font-medium hover:text-indigo-500 "
+          data-testid="mode-change"
         >
-          <h3>
-            Documentation →
-          </h3>
-          <p>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-        <a
-          class="card"
-          href="https://nextjs.org/learn"
+          change mode ?
+        </p>
+        <div
+          class="flex items-center justify-center flex-col"
         >
-          <h3>
-            Learn →
-          </h3>
-          <p>
-            Learn about Next.js in an interactive course with quizzes!
-          </p>
-        </a>
-        <a
-          class="card"
-          href="https://github.com/vercel/next.js/tree/canary/examples"
-        >
-          <h3>
-            Examples →
-          </h3>
-          <p>
-            Discover and deploy boilerplate example Next.js projects.
-          </p>
-        </a>
-        <a
-          class="card"
-          href="https://vercel.com/new"
-        >
-          <h3>
-            Deploy →
-          </h3>
-          <p>
-            Instantly deploy your Next.js site to a public URL with Vercel.
-          </p>
-        </a>
-      </div>
+          <button
+            class="disabled:opacity-40 py-2 px-4 text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
+            disabled=""
+            type="submit"
+          >
+            Login with JWT
+          </button>
+        </div>
+      </form>
     </main>
     <footer
-      class="footer"
+      class="w-full h-12 flex justify-center items-center border-t"
     >
       <a
+        class="flex items-center"
         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
         rel="noopener noreferrer"
         target="_blank"
       >
         Powered by
-         
         <span
-          class="logo"
+          style="box-sizing: border-box; display: inline-block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;"
         >
           <span
-            style="box-sizing: border-box; display: inline-block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;"
+            style="box-sizing: border-box; display: block; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;"
           >
-            <span
-              style="box-sizing: border-box; display: block; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;"
-            >
-              <img
-                alt=""
-                aria-hidden="true"
-                src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2772%27%20height=%2716%27/%3e"
-                style="display: block; max-width: 100%; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;"
-              />
-            </span>
             <img
-              alt="Vercel Logo"
-              data-nimg="intrinsic"
-              decoding="async"
-              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-              style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+              alt=""
+              aria-hidden="true"
+              src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2772%27%20height=%2716%27/%3e"
+              style="display: block; max-width: 100%; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;"
             />
-            <noscript />
           </span>
+          <img
+            alt="Vercel Logo"
+            data-nimg="intrinsic"
+            decoding="async"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+          />
+          <noscript />
         </span>
       </a>
     </footer>

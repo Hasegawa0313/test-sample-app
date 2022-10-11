@@ -92,6 +92,7 @@ exports.Prisma.BlogScalarFieldEnum = makeEnum({
   id: 'id',
   title: 'title',
   userId: 'userId',
+  content: 'content',
   createdAt: 'createdAt'
 });
 
@@ -122,6 +123,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = makeEnum({
   id: 'id',
   email: 'email',
+  password: 'password',
   username: 'username'
 });
 

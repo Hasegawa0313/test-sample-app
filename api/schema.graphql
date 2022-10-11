@@ -1,4 +1,6 @@
 # GraphQLスキーマの定義
+scalar Date
+
 type User {
   id: ID!
   email: String!
@@ -19,24 +21,55 @@ type Tag {
 type Blog {
   id: ID!
   title: String!
+  content: String
   user: User
   userId: Int
   tags: [Tag!]
-  createdAt: String
+  createdAt: Date
 }
 
 type Query {
+  """
+  ユーザー一覧
+  """
   users(page: Int!): [User]!
-  blogs(page: Int!): [Blog]!
+
+  """
+  id指定したユーザー 取得
+  """
+  user(id: ID!): User
+
+  """
+  ブログ一覧 取得
+  """
+  blogs: [Blog]!
+
+  """
+  id指定したブログ 取得
+  """
+  blog(id: ID!): Blog
+
+  """
+  ログインユーザー 取得
+  """
+  loginUser: User
 }
 
 type Mutation {
+  """
+  ユーザー作成
+  """
   createUser(input: CreateUserInput!): User
+
+  """
+  ブログ削除
+  """
   deleteBlog(input: DeleteBlogInput!): Blog
 }
 
 input CreateUserInput {
   email: String!
+  password: String!
   username: String!
 }
 

@@ -19,6 +19,7 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 export type User = {
   id: number
   email: string
+  password: string
   username: string | null
 }
 
@@ -41,6 +42,7 @@ export type Blog = {
   id: number
   title: string
   userId: number
+  content: string | null
   createdAt: Date
 }
 
@@ -974,18 +976,21 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: number | null
     email: string | null
+    password: string | null
     username: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
     email: string | null
+    password: string | null
     username: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     email: number
+    password: number
     username: number
     _all: number
   }
@@ -1002,18 +1007,21 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     email?: true
+    password?: true
     username?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
+    password?: true
     username?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
+    password?: true
     username?: true
     _all?: true
   }
@@ -1113,6 +1121,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: number
     email: string
+    password: string
     username: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1138,6 +1147,7 @@ export namespace Prisma {
   export type UserSelect = {
     id?: boolean
     email?: boolean
+    password?: boolean
     username?: boolean
     tags?: boolean | TagArgs
     blogs?: boolean | BlogFindManyArgs
@@ -2895,6 +2905,7 @@ export namespace Prisma {
     id: number | null
     title: string | null
     userId: number | null
+    content: string | null
     createdAt: Date | null
   }
 
@@ -2902,6 +2913,7 @@ export namespace Prisma {
     id: number | null
     title: string | null
     userId: number | null
+    content: string | null
     createdAt: Date | null
   }
 
@@ -2909,6 +2921,7 @@ export namespace Prisma {
     id: number
     title: number
     userId: number
+    content: number
     createdAt: number
     _all: number
   }
@@ -2928,6 +2941,7 @@ export namespace Prisma {
     id?: true
     title?: true
     userId?: true
+    content?: true
     createdAt?: true
   }
 
@@ -2935,6 +2949,7 @@ export namespace Prisma {
     id?: true
     title?: true
     userId?: true
+    content?: true
     createdAt?: true
   }
 
@@ -2942,6 +2957,7 @@ export namespace Prisma {
     id?: true
     title?: true
     userId?: true
+    content?: true
     createdAt?: true
     _all?: true
   }
@@ -3042,6 +3058,7 @@ export namespace Prisma {
     id: number
     title: string
     userId: number
+    content: string | null
     createdAt: Date
     _count: BlogCountAggregateOutputType | null
     _avg: BlogAvgAggregateOutputType | null
@@ -3069,6 +3086,7 @@ export namespace Prisma {
     title?: boolean
     user?: boolean | UserArgs
     userId?: boolean
+    content?: boolean
     tags?: boolean | TagFindManyArgs
     createdAt?: boolean
     _count?: boolean | BlogCountOutputTypeArgs
@@ -3844,6 +3862,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     userId: 'userId',
+    content: 'content',
     createdAt: 'createdAt'
   };
 
@@ -3889,6 +3908,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
+    password: 'password',
     username: 'username'
   };
 
@@ -3906,6 +3926,7 @@ export namespace Prisma {
     NOT?: Enumerable<UserWhereInput>
     id?: IntFilter | number
     email?: StringFilter | string
+    password?: StringFilter | string
     username?: StringNullableFilter | string | null
     tags?: XOR<TagRelationFilter, TagWhereInput> | null
     blogs?: BlogListRelationFilter
@@ -3914,6 +3935,7 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     username?: SortOrder
     tags?: TagOrderByWithRelationInput
     blogs?: BlogOrderByRelationAggregateInput
@@ -3927,6 +3949,7 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     username?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -3941,6 +3964,7 @@ export namespace Prisma {
     NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     email?: StringWithAggregatesFilter | string
+    password?: StringWithAggregatesFilter | string
     username?: StringNullableWithAggregatesFilter | string | null
   }
 
@@ -4000,6 +4024,7 @@ export namespace Prisma {
     title?: StringFilter | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     userId?: IntFilter | number
+    content?: StringNullableFilter | string | null
     tags?: TagListRelationFilter
     createdAt?: DateTimeFilter | Date | string
   }
@@ -4009,6 +4034,7 @@ export namespace Prisma {
     title?: SortOrder
     user?: UserOrderByWithRelationInput
     userId?: SortOrder
+    content?: SortOrder
     tags?: TagOrderByRelationAggregateInput
     createdAt?: SortOrder
   }
@@ -4021,6 +4047,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
     createdAt?: SortOrder
     _count?: BlogCountOrderByAggregateInput
     _avg?: BlogAvgOrderByAggregateInput
@@ -4036,11 +4063,13 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     title?: StringWithAggregatesFilter | string
     userId?: IntWithAggregatesFilter | number
+    content?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type UserCreateInput = {
     email: string
+    password: string
     username?: string | null
     tags?: TagCreateNestedOneWithoutUserInput
     blogs?: BlogCreateNestedManyWithoutUserInput
@@ -4049,6 +4078,7 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: number
     email: string
+    password: string
     username?: string | null
     tags?: TagUncheckedCreateNestedOneWithoutUserInput
     blogs?: BlogUncheckedCreateNestedManyWithoutUserInput
@@ -4056,6 +4086,7 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUpdateOneWithoutUserNestedInput
     blogs?: BlogUpdateManyWithoutUserNestedInput
@@ -4064,6 +4095,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUncheckedUpdateOneWithoutUserNestedInput
     blogs?: BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -4072,17 +4104,20 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: number
     email: string
+    password: string
     username?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -4133,6 +4168,7 @@ export namespace Prisma {
   export type BlogCreateInput = {
     title: string
     user: UserCreateNestedOneWithoutBlogsInput
+    content?: string | null
     tags?: TagCreateNestedManyWithoutBlogInput
     createdAt?: Date | string
   }
@@ -4141,6 +4177,7 @@ export namespace Prisma {
     id?: number
     title: string
     userId: number
+    content?: string | null
     tags?: TagUncheckedCreateNestedManyWithoutBlogInput
     createdAt?: Date | string
   }
@@ -4148,6 +4185,7 @@ export namespace Prisma {
   export type BlogUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBlogsNestedInput
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUpdateManyWithoutBlogNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4156,6 +4194,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUncheckedUpdateManyWithoutBlogNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4164,11 +4203,13 @@ export namespace Prisma {
     id?: number
     title: string
     userId: number
+    content?: string | null
     createdAt?: Date | string
   }
 
   export type BlogUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4176,6 +4217,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4238,6 +4280,7 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     username?: SortOrder
   }
 
@@ -4248,12 +4291,14 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     username?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     username?: SortOrder
   }
 
@@ -4381,6 +4426,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4393,6 +4439,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4400,6 +4447,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4756,6 +4804,7 @@ export namespace Prisma {
 
   export type BlogCreateWithoutUserInput = {
     title: string
+    content?: string | null
     tags?: TagCreateNestedManyWithoutBlogInput
     createdAt?: Date | string
   }
@@ -4763,6 +4812,7 @@ export namespace Prisma {
   export type BlogUncheckedCreateWithoutUserInput = {
     id?: number
     title: string
+    content?: string | null
     tags?: TagUncheckedCreateNestedManyWithoutBlogInput
     createdAt?: Date | string
   }
@@ -4816,11 +4866,13 @@ export namespace Prisma {
     id?: IntFilter | number
     title?: StringFilter | string
     userId?: IntFilter | number
+    content?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
   }
 
   export type UserCreateWithoutTagsInput = {
     email: string
+    password: string
     username?: string | null
     blogs?: BlogCreateNestedManyWithoutUserInput
   }
@@ -4828,6 +4880,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutTagsInput = {
     id?: number
     email: string
+    password: string
     username?: string | null
     blogs?: BlogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -4840,6 +4893,7 @@ export namespace Prisma {
   export type BlogCreateWithoutTagsInput = {
     title: string
     user: UserCreateNestedOneWithoutBlogsInput
+    content?: string | null
     createdAt?: Date | string
   }
 
@@ -4847,6 +4901,7 @@ export namespace Prisma {
     id?: number
     title: string
     userId: number
+    content?: string | null
     createdAt?: Date | string
   }
 
@@ -4862,6 +4917,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutTagsInput = {
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUpdateManyWithoutUserNestedInput
   }
@@ -4869,6 +4925,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutTagsInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -4881,6 +4938,7 @@ export namespace Prisma {
   export type BlogUpdateWithoutTagsInput = {
     title?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBlogsNestedInput
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4888,11 +4946,13 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutBlogsInput = {
     email: string
+    password: string
     username?: string | null
     tags?: TagCreateNestedOneWithoutUserInput
   }
@@ -4900,6 +4960,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutBlogsInput = {
     id?: number
     email: string
+    password: string
     username?: string | null
     tags?: TagUncheckedCreateNestedOneWithoutUserInput
   }
@@ -4937,6 +4998,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutBlogsInput = {
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUpdateOneWithoutUserNestedInput
   }
@@ -4944,6 +5006,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutBlogsInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -4977,11 +5040,13 @@ export namespace Prisma {
   export type BlogCreateManyUserInput = {
     id?: number
     title: string
+    content?: string | null
     createdAt?: Date | string
   }
 
   export type BlogUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUpdateManyWithoutBlogNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4989,6 +5054,7 @@ export namespace Prisma {
   export type BlogUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TagUncheckedUpdateManyWithoutBlogNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4996,6 +5062,7 @@ export namespace Prisma {
   export type BlogUncheckedUpdateManyWithoutBlogsInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

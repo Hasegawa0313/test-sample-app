@@ -1,25 +1,25 @@
-import { GraphQLResolveInfo } from 'graphql';
-import { User, Blog } from './prisma/generated/prisma-client-js';
-import gql from 'graphql-tag';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { Context } from '@/types/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
+  ID: number | string;
   String: string;
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: Date;
 };
 
 export type Blog = {
   __typename?: 'Blog';
-  createdAt?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Date']>;
   id: Scalars['ID'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String'];
@@ -29,6 +29,7 @@ export type Blog = {
 
 export type CreateUserInput = {
   email: Scalars['String'];
+  password: Scalars['String'];
   username: Scalars['String'];
 };
 
@@ -38,7 +39,9 @@ export type DeleteBlogInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** ユーザー作成 */
   createUser?: Maybe<User>;
+  /** ブログ削除 */
   deleteBlog?: Maybe<Blog>;
 };
 
@@ -54,13 +57,26 @@ export type MutationDeleteBlogArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  /** id指定したブログ 取得 */
+  blog?: Maybe<Blog>;
+  /** ブログ一覧 取得 */
   blogs: Array<Maybe<Blog>>;
+  /** ログインユーザー 取得 */
+  loginUser?: Maybe<User>;
+  /** id指定したユーザー 取得 */
+  user?: Maybe<User>;
+  /** ユーザー一覧 */
   users: Array<Maybe<User>>;
 };
 
 
-export type QueryBlogsArgs = {
-  page: Scalars['Int'];
+export type QueryBlogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -160,13 +176,14 @@ export type ResolversTypes = ResolversObject<{
   Blog: ResolverTypeWrapper<Blog>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserInput: CreateUserInput;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteBlogInput: DeleteBlogInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  Tag: ResolverTypeWrapper<Omit<Tag, 'blog' | 'user'> & { blog?: Maybe<ResolversTypes['Blog']>, user?: Maybe<ResolversTypes['User']> }>;
+  Tag: ResolverTypeWrapper<Tag>;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -175,18 +192,20 @@ export type ResolversParentTypes = ResolversObject<{
   Blog: Blog;
   Boolean: Scalars['Boolean'];
   CreateUserInput: CreateUserInput;
+  Date: Scalars['Date'];
   DeleteBlogInput: DeleteBlogInput;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Mutation: {};
   Query: {};
   String: Scalars['String'];
-  Tag: Omit<Tag, 'blog' | 'user'> & { blog?: Maybe<ResolversParentTypes['Blog']>, user?: Maybe<ResolversParentTypes['User']> };
+  Tag: Tag;
   User: User;
 }>;
 
-export type BlogResolvers<ContextType = any, ParentType extends ResolversParentTypes['Blog'] = ResolversParentTypes['Blog']> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+export type BlogResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Blog'] = ResolversParentTypes['Blog']> = ResolversObject<{
+  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<ResolversTypes['Tag']>>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -195,17 +214,24 @@ export type BlogResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteBlog?: Resolver<Maybe<ResolversTypes['Blog']>, ParentType, ContextType, RequireFields<MutationDeleteBlogArgs, 'input'>>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  blogs?: Resolver<Array<Maybe<ResolversTypes['Blog']>>, ParentType, ContextType, RequireFields<QueryBlogsArgs, 'page'>>;
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  blog?: Resolver<Maybe<ResolversTypes['Blog']>, ParentType, ContextType, RequireFields<QueryBlogArgs, 'id'>>;
+  blogs?: Resolver<Array<Maybe<ResolversTypes['Blog']>>, ParentType, ContextType>;
+  loginUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType, RequireFields<QueryUsersArgs, 'page'>>;
 }>;
 
-export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
+export type TagResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
   blog?: Resolver<Maybe<ResolversTypes['Blog']>, ParentType, ContextType>;
   blogId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -215,7 +241,7 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   blogs?: Resolver<Maybe<Array<ResolversTypes['Blog']>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -224,8 +250,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = Context> = ResolversObject<{
   Blog?: BlogResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;

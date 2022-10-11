@@ -1,5 +1,5 @@
-query Blogs($page: Int!) {
-  blogs(page: $page) {
+query Blogs {
+  blogs {
     id
     title
     user {
