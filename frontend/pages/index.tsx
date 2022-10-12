@@ -12,6 +12,7 @@ import {
 } from '@/gql/graphql'
 import Cookie from 'universal-cookie'
 import { getSdk } from '@/gql/ssr'
+import { toast } from 'react-toastify'
 const cookie = new Cookie()
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
@@ -30,15 +31,41 @@ const BlogPage = ({ posts }: Props) => {
   }
 
   const deletePost = async (id: number) => {
-    deleteBlogMutation({
-      context: {
-        headers: {
-          Authorization: `Bearer ${cookie.get('access_token')}`
+    try {
+      const result = await deleteBlogMutation({
+        context: {
+          headers: {
+            Authorization: `Bearer ${cookie.get('access_token')}`
+          }
+        },
+        variables: {
+          input: {
+            id: id.toFixed()
+          }
         }
+      })
+
+      if (result.data?.deleteBlog?.id) {
+        if (posts?.blogs) {
+          posts.blogs = posts?.blogs.filter(
+            (value) => value?.id !== result.data?.deleteBlog?.id
+          )
+        }
+
+        toast('削除しました。', {
+          type: 'success'
+        })
+      } else {
+        toast('エラーが発生しました。', {
+          type: 'error'
+        })
       }
-    }).catch((e) => {
-      console.log(e)
-    })
+    } catch (error) {
+      console.log(error)
+      toast('エラーが発生しました。', {
+        type: 'error'
+      })
+    }
   }
   useEffect(() => {
     if (cookie.get('access_token')) {

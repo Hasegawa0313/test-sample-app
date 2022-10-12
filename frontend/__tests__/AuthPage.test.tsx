@@ -8,8 +8,7 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import AdminPage from '@/pages/admin-page'
-import { CreateUserDocument } from '@/gql/graphql'
-import { CreateUserMutation } from '@/gql/ssr'
+import { CreateUserDocument, CreateUserMutation } from '@/gql/graphql'
 import { useRouter } from 'next/router'
 
 jest.mock('next/router', () => {
@@ -88,8 +87,11 @@ describe('Adminページ', () => {
       screen.getByPlaceholderText('Email'),
       'testahasegawa@ekanlab.co.jp'
     )
-    await userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
-    await userEvent.click(screen.getByText('Login with JWT'))
+    await userEvent.type(
+      await screen.getByPlaceholderText('Password'),
+      'testtest'
+    )
+    await userEvent.click(await screen.getByText('Login with JWT'))
     expect(useRouter().push).toHaveBeenCalledWith('/')
   })
   it('ログイン失敗すべき', async () => {
