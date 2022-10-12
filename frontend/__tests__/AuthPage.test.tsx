@@ -1,13 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  render,
-  screen,
-  cleanup,
-  renderHook,
-  act
-} from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
@@ -17,7 +11,15 @@ import AdminPage from '@/pages/admin-page'
 import { CreateUserDocument } from '@/gql/graphql'
 import { CreateUserMutation } from '@/gql/ssr'
 import { useRouter } from 'next/router'
-import mockRouter from 'next-router-mock'
+
+jest.mock('next/router', () => {
+  const push = jest.fn()
+  return {
+    useRouter: jest.fn(() => ({
+      push
+    }))
+  }
+})
 
 const handlers = [
   rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, (req, res, ctx) => {
@@ -63,9 +65,6 @@ const mutationErrMocks: MockedResponse<CreateUserMutation>[] = [
     error: new Error('An error occurred')
   }
 ]
-beforeEach(() => {
-  mockRouter.setCurrentUrl('/admin-page')
-})
 beforeAll(() => {
   server.listen()
 })
@@ -78,25 +77,20 @@ afterAll(() => {
 })
 
 describe('Adminページ', () => {
-  it('Should route to index-page when login succeeded', () => {
-    //   render(
-    //     <MockedProvider mocks={mutationMocks} addTypename={false}>
-    //       <AdminPage />
-    //     </MockedProvider>
-    //   )
-    //   expect(await screen.findByText('Login')).toBeInTheDocument()
-    //   userEvent.type(
-    //     screen.getByPlaceholderText('Email'),
-    //     'testahasegawa@ekanlab.co.jp'
-    //   )
-    //   userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
-    //   userEvent.click(screen.getByText('Login with JWT'))
-    //   render(
-    //     <MockedProvider mocks={mutationMocks} addTypename={false}>
-    //       <AdminPage />
-    //     </MockedProvider>
-    //   )
-    //   expect(await screen.findByText('blog page')).toBeInTheDocument()
+  it('Should route to index-page when login succeeded', async () => {
+    render(
+      <MockedProvider mocks={mutationSuccessMocks} addTypename={false}>
+        <AdminPage />
+      </MockedProvider>
+    )
+    expect(await screen.findByText('Login')).toBeInTheDocument()
+    await userEvent.type(
+      screen.getByPlaceholderText('Email'),
+      'testahasegawa@ekanlab.co.jp'
+    )
+    await userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
+    await userEvent.click(screen.getByText('Login with JWT'))
+    expect(useRouter().push).toHaveBeenCalledWith('/')
   })
   it('ログイン失敗すべき', async () => {
     server.use(
@@ -134,26 +128,36 @@ describe('Adminページ', () => {
   })
 
   it('Should route to index-page when register+login succeeded', async () => {
-    // つまり中、、、
-    // const { result } = renderHook(() => {
-    //   return useRouter()
-    // })
-    // render(
-    //   <MockedProvider mocks={mutationSuccessMocks} addTypename={false}>
-    //     <AdminPage />
-    //   </MockedProvider>
-    // )
-    // expect(await screen.findByText('Login')).toBeInTheDocument()
-    // expect(result.current).toMatchObject({
-    //   asPath: '/admin-page'
-    // })
-    // await userEvent.click(screen.getByTestId('mode-change'))
-    // await userEvent.type(
-    //   screen.getByPlaceholderText('Username'),
-    //   'testahasegawa@ekanlab.co.jp'
-    // )
-    // await userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
-    // await userEvent.click(screen.getByText('Create new user'))
-    // expect(result.current.push).toHaveBeenCalledTimes(1)
+    render(
+      <MockedProvider mocks={mutationSuccessMocks} addTypename={false}>
+        <AdminPage />
+      </MockedProvider>
+    )
+    expect(await screen.findByText('Login')).toBeInTheDocument()
+    await userEvent.click(screen.getByTestId('mode-change'))
+    await userEvent.type(
+      screen.getByPlaceholderText('Email'),
+      'testahasegawa@ekanlab.co.jp'
+    )
+    await userEvent.type(screen.getByPlaceholderText('Username'), 'test')
+    await userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
+    await userEvent.click(screen.getByText('Create new user'))
+    expect(useRouter().push).toHaveBeenCalledWith('/')
+  })
+
+  it('Should not route to index-page when registration is failed', async () => {
+    render(
+      <MockedProvider mocks={mutationErrMocks} addTypename={false}>
+        <AdminPage />
+      </MockedProvider>
+    )
+    expect(await screen.findByText('Login')).toBeInTheDocument()
+    await userEvent.click(screen.getByTestId('mode-change'))
+    await userEvent.type(screen.getByPlaceholderText('Email'), 'test@email.com')
+    await userEvent.type(screen.getByPlaceholderText('Username'), 'user1')
+    await userEvent.type(screen.getByPlaceholderText('Password'), 'dummypw')
+    await userEvent.click(screen.getByText('Create new user'))
+    expect(await screen.findByText('Registration Error'))
+    expect(screen.getByText('Sign up')).toBeInTheDocument()
   })
 })
