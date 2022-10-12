@@ -2,6 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import Auth from '@/components/Auth'
+import { userEvent, within } from '@storybook/testing-library'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -16,26 +17,12 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Auth> = (args) => <Auth {...args} />
 
-export const Primary = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  primary: true,
-  label: 'Auth'
-}
+export const LoginMode = Template.bind({})
 
-export const Secondary = Template.bind({})
-Secondary.args = {
-  label: 'Auth'
-}
+export const SignInMode = Template.bind({})
 
-export const Large = Template.bind({})
-Large.args = {
-  size: 'large',
-  label: 'Auth'
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
-  label: 'Auth'
+SignInMode.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement)
+  const loginButton = await canvas.getByTestId('mode-change')
+  await userEvent.click(loginButton)
 }

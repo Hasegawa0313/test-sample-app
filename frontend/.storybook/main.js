@@ -10,7 +10,6 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    'storybook-addon-next',
     'storybook-addon-apollo-client',
     {
       name: '@storybook/addon-postcss',
@@ -21,35 +20,16 @@ module.exports = {
       }
     }
   ],
-  framework: '@storybook/react',
-  core: {
-    builder: 'webpack5'
-  },
   webpackFinal(config) {
     config.resolve.modules = [
       ...(config.resolve.modules || []),
-      path.resolve(__dirname, '../')
+      path.resolve(__dirname, '../src')
     ]
 
     config.resolve.plugins = [
       ...(config.resolve.plugins || []),
       new TsconfigPathsPlugin()
     ]
-
-    config.module.rules.push({
-      test: /\.css$/,
-      use: [
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [require('tailwindcss'), require('autoprefixer')]
-            }
-          }
-        }
-      ],
-      include: path.resolve(__dirname, '../')
-    })
     return config
   },
   framework: '@storybook/react',
