@@ -15,9 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
-        run: yarn
-        with:
-          workingDir: ./frontend
+        run: cd ./frontend && yarn
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish frontend to Chromatic
         uses: chromaui/action@v1
