@@ -15,7 +15,7 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=718ee3ee5ac4"
+    "chromatic": "npx chromatic"
   },
   "resolutions": {
     "webpack": "^5"
