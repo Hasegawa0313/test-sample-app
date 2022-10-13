@@ -114,10 +114,13 @@ describe('Adminページ', () => {
         </div>
       </MockedProvider>
     )
+
     expect(await screen.findByText('titletitle1')).toBeInTheDocument()
     expect(await screen.findByText('titletitle2')).toBeInTheDocument()
 
-    await userEvent.click(await screen.getByTestId(`btn-1`))
+    await act(
+      async () => await userEvent.click(await screen.getByTestId(`btn-1`))
+    )
     expect(await screen.queryByText('testtest1')).toBeNull()
     expect(await screen.findByText('削除しました。')).toBeInTheDocument()
   })

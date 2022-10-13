@@ -30,10 +30,8 @@ const Auth: React.FC = () => {
           }
         }
       )
-      console.log(res.status)
-      console.log(res.data)
+
       if (res.status === 200 && res.data.token) {
-        console.log(res)
         const options = { path: '/' }
         cookie.set('access_token', res.data.token, options)
         router.push('/')

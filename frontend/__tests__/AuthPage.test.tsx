@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, act } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
@@ -83,13 +83,14 @@ describe('Adminページ', () => {
       </MockedProvider>
     )
     expect(await screen.findByText('Login')).toBeInTheDocument()
-    await userEvent.type(
-      screen.getByPlaceholderText('Email'),
-      'testahasegawa@ekanlab.co.jp'
+    await act(() =>
+      userEvent.type(
+        screen.getByPlaceholderText('Email'),
+        'testahasegawa@ekanlab.co.jp'
+      )
     )
-    await userEvent.type(
-      await screen.getByPlaceholderText('Password'),
-      'testtest'
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
     )
     await userEvent.click(await screen.getByText('Login with JWT'))
     expect(useRouter().push).toHaveBeenCalledWith('/')
@@ -109,9 +110,13 @@ describe('Adminページ', () => {
       </MockedProvider>
     )
     expect(await screen.findByText('Login')).toBeInTheDocument()
-    await userEvent.type(screen.getByPlaceholderText('Email'), 'user1@test')
-    await userEvent.type(screen.getByPlaceholderText('Password'), 'dummypw')
-    await userEvent.click(screen.getByText('Login with JWT'))
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Email'), 'user1@test')
+    )
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Password'), 'dummypw')
+    )
+    await act(() => userEvent.click(screen.getByText('Login with JWT')))
     expect(await screen.findByText('Login Error'))
     expect(screen.getByText('Login')).toBeInTheDocument()
   })
@@ -124,8 +129,8 @@ describe('Adminページ', () => {
     )
     expect(await screen.findByText('Login')).toBeInTheDocument()
     expect(screen.getByText('Login with JWT')).toBeInTheDocument()
-    await userEvent.click(screen.getByTestId('mode-change'))
-    expect(screen.getByText('Sign up')).toBeInTheDocument()
+    await act(() => userEvent.click(screen.getByTestId('mode-change')))
+    await act(() => expect(screen.getByText('Sign up')).toBeInTheDocument())
     expect(screen.getByText('Create new user')).toBeInTheDocument()
   })
 
@@ -136,14 +141,20 @@ describe('Adminページ', () => {
       </MockedProvider>
     )
     expect(await screen.findByText('Login')).toBeInTheDocument()
-    await userEvent.click(screen.getByTestId('mode-change'))
-    await userEvent.type(
-      screen.getByPlaceholderText('Email'),
-      'testahasegawa@ekanlab.co.jp'
+    await act(() => userEvent.click(screen.getByTestId('mode-change')))
+    await act(() =>
+      userEvent.type(
+        screen.getByPlaceholderText('Email'),
+        'testahasegawa@ekanlab.co.jp'
+      )
     )
-    await userEvent.type(screen.getByPlaceholderText('Username'), 'test')
-    await userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
-    await userEvent.click(screen.getByText('Create new user'))
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Username'), 'test')
+    )
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Password'), 'testtest')
+    )
+    await act(() => userEvent.click(screen.getByText('Create new user')))
     expect(useRouter().push).toHaveBeenCalledWith('/')
   })
 
@@ -154,11 +165,17 @@ describe('Adminページ', () => {
       </MockedProvider>
     )
     expect(await screen.findByText('Login')).toBeInTheDocument()
-    await userEvent.click(screen.getByTestId('mode-change'))
-    await userEvent.type(screen.getByPlaceholderText('Email'), 'test@email.com')
-    await userEvent.type(screen.getByPlaceholderText('Username'), 'user1')
-    await userEvent.type(screen.getByPlaceholderText('Password'), 'dummypw')
-    await userEvent.click(screen.getByText('Create new user'))
+    await act(() => userEvent.click(screen.getByTestId('mode-change')))
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Email'), 'test@email.com')
+    )
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Username'), 'user1')
+    )
+    await act(() =>
+      userEvent.type(screen.getByPlaceholderText('Password'), 'dummypw')
+    )
+    await act(() => userEvent.click(screen.getByText('Create new user')))
     expect(await screen.findByText('Registration Error'))
     expect(screen.getByText('Sign up')).toBeInTheDocument()
   })
