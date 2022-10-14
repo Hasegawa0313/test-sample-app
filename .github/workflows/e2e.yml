@@ -11,11 +11,15 @@ jobs:
       run:
         working-directory: 'frontend'
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
       with:
         node-version: '16.x'
         cache: 'yarn'
         cache-dependency-path: ./frontend/yarn.lock
     - uses: microsoft/playwright-github-action@v1
-    - run: yarn && yarn test:e2e
+    - name: Install dependencies for api
+      working-directory: 'api'
+      run: yarn
+    - name: Install dependencies for frontend and run tests
+      run: yarn && yarn test:e2e
