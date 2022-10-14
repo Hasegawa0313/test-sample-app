@@ -43,6 +43,6 @@ jobs:
         echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env.local
     - name: Install dependencies for api
       working-directory: 'api'
-      run: yarn
+      run: yarn && npx prisma migrate dev --name init
     - name: Install dependencies for frontend and run tests
       run: npx playwright install --with-deps && yarn && yarn test:e2e
