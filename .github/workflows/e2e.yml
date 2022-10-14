@@ -31,12 +31,16 @@ jobs:
         cache: 'yarn'
         cache-dependency-path: ./frontend/yarn.lock
     - uses: microsoft/playwright-github-action@v1
-    - name: Create env file
+    - name: Create api env file
+      working-directory: 'api'
+      run: |
+        touch .env
+        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+    - name: Create frontend env file
       run: |
         touch .env.local
         echo NEXT_PUBLIC_FRONT_URL=${{ secrets.NEXT_PUBLIC_FRONT_URL }} >> .env.local
         echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env.local
-        cat .env.local
     - name: Install dependencies for api
       working-directory: 'api'
       run: yarn
