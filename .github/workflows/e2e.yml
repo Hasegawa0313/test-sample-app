@@ -36,7 +36,7 @@ jobs:
         touch .env.local
         echo NEXT_PUBLIC_FRONT_URL=${{ secrets.NEXT_PUBLIC_FRONT_URL }} >> .env.local
         echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env.local
-        cat .env
+        cat .env.local
     - name: Install dependencies for api
       working-directory: 'api'
       run: yarn
