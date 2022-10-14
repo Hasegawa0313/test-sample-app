@@ -1,0 +1,24 @@
+name: E2E Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend'
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'yarn'
+        cache-dependency-path: ./frontend/yarn.lock
+    - uses: microsoft/playwright-github-action@v1
+    - run: yarn && yarn test:e2e
