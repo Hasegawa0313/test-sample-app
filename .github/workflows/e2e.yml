@@ -45,4 +45,4 @@ jobs:
       working-directory: 'api'
       run: yarn && npx prisma migrate dev --name init
     - name: Install dependencies for frontend and run tests
-      run: npx playwright install --with-deps && yarn && yarn test:e2e
+      run: yarn && npx playwright install --with-deps && yarn test:e2e
