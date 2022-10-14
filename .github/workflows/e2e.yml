@@ -22,4 +22,4 @@ jobs:
       working-directory: 'api'
       run: yarn
     - name: Install dependencies for frontend and run tests
-      run: yarn && yarn test:e2e
+      run: npx playwright install-deps && yarn && yarn test:e2e
