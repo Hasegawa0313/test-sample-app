@@ -1,0 +1,33 @@
+# .github/workflows/chromatic.yml
+
+# Workflow name
+name: 'Test'
+
+# Event for the workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# List of jobs
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'yarn'
+        cache-dependency-path: ./frontend/yarn.lock
+    - name: test
+      run: |
+        yarn install
+        yarn test
+        echo '# Coverage :rocket:' >> $GITHUB_STEP_SUMMARY
+        cat coverage/report.txt | sed '1d' | sed '$d' >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,52 @@
+name: E2E Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        # refer: https://hub.docker.com/_/postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+
+    defaults:
+      run:
+        working-directory: 'frontend'
+    environment:
+      name: development
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+        cache: 'yarn'
+        cache-dependency-path: ./frontend/yarn.lock
+    - uses: microsoft/playwright-github-action@v1
+    - name: Create api env file
+      working-directory: 'api'
+      run: |
+        touch .env
+        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+    - name: Create frontend env file
+      run: |
+        touch .env.local
+        echo NEXT_PUBLIC_FRONT_URL=${{ secrets.NEXT_PUBLIC_FRONT_URL }} >> .env.local
+        echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env.local
+    - name: Install dependencies for api
+      working-directory: 'api'
+      run: yarn && npx prisma migrate dev --name init
+    - name: Install dependencies for frontend and run tests
+      run: yarn && npx playwright install --with-deps && yarn test:e2e

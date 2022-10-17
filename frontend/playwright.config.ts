@@ -19,6 +19,17 @@ const config: PlaywrightTestConfig = {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
     }
+  ],
+  webServer: [
+    {
+      command: 'yarn dev',
+      port: 3000
+    },
+    {
+      cwd: '../api',
+      command: 'yarn dev',
+      port: 4000
+    }
   ]
 }
 
